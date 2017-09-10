@@ -1,0 +1,23 @@
+{
+  "name": "fisicajs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisHerasme/FisicaJs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisHerasme/FisicaJs/issues"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  },
+  "homepage": "https://github.com/LuisHerasme/FisicaJs#readme"
+}
