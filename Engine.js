@@ -1,98 +1,82 @@
 
 const vector = require('vector_functions')
 
-/**
- * This is a class that returns a line
- * @param {array} start This is a vector
- * @param {array} end This is a vector
- */
 function Engine () {
   this.bodies = []
 
-  this.add = function (body) {
+  this.add = (body) => {
     this.bodies.push(body)
   }
 
-  this.setBounds = function (minX, maxX, minY, maxY) {
-    this.boundSet = true
+  this.collision = function (body, body2) {
+    if (body.onCollision) body.onCollision(body2)
+    if (body2.onCollision) body2.onCollision(body)
+  }
+
+  this.setBounds = (minX, maxX, minY, maxY) => {
+    this.bounds = true
     this.minX = minX
     this.maxX = maxX
     this.minY = minY
     this.maxY = maxY
   }
 
-  this.removeBounds = function () {
-    this.boundSet = false
+  this.removeBounds = () => {
+    this.bounds = false
   }
 
-  this.update = function () {
+  this.update = () => {
     this.bodies.forEach(function (body, index) {
-      /*
-      if (this.boundSet) {
+      if (this.bounds) {
         if (body.position.x <= this.minX) {
           body.position.x = this.minX
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
+
         if (body.position.x >= this.maxX) {
-          body.positio n.x = this.maxX
+          body.position.x = this.maxX
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
+
         if (body.position.y <= this.minY) {
           body.position.y = this.minY
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
+
         if (body.position.y >= this.maxY) {
           body.position.y = this.maxY
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
       }
-      */
-      this.bodies.forEach(function (_body, _index) {
-        if (index !== _index) {
-          if (vector.distance(body.center, _body.center) > body.far + _body.far) {
-            if (body.type !== 'Circle' && _body.type !== 'Circle') {
-              body.lines.forEach(function (line, index) {
-                _body.lines.forEach(function (_line, _index) {
+
+      this.bodies.forEach((body2, index2) => {
+        if (index !== index2) {
+          if (body.center.distance(body2.center) > body.far + body2.far) {
+            if (body.type !== 'Circle' && body2.type !== 'Circle') {
+              for (let bodyIndex = 0; bodyIndex < body.vertices.length - 1; bodyIndex++) {
+                for (let body2Index = 0; body2Index < body2.vertices.length - 1; body2Index++) {
                   const intersection = vector.lineIntersect(
-                    line.start, line.end,
-                    _line.start, line.end
+                    body.vertices.points[bodyIndex], body.vertices.points[bodyIndex + 1],
+                    body2.vertices.points[body2Index], body2.vertices.points[body2Index + 1]
                   )
-                  if (intersection[0] !== 1 || intersection[1] !== 1) {
-                    if (body.onCollision) body.onCollision(_body)
-                    if (_body.onCollision) _body.onCollision(body)
-                  }
-                })
+                  if (intersection[0] !== 1 || intersection[1] !== 1) this.collision(body, body2)
+                }
+              }
+            } else if (body.type !== 'Circle' && body2.type === 'Circle') {
+              body.vertices.points.forEach((vertex) => {
+                if (vector.distance(vertex, body2.center) < body2.radius) this.collision(body, body2)
               })
-            } else if (body.type !== 'Circle' && _body.type === 'Circle') {
-              body.lines.forEach(function (line) {
-                if (vector.distance(line.start, _body.center) < _body.radius) {
-                  if (body.onCollision) body.onCollision(_body)
-                  if (_body.onCollision) _body.onCollision(body)
-                }
-                if (vector.distance(line.end, body.center) < body.radius) {
-                  if (body.onCollision) body.onCollision(_body)
-                  if (_body.onCollision) _body.onCollision(body)
-                }
-              })
-            } else if (body.type === 'Circle' && _body.type !== 'Circle') {
-              _body.lines.forEach(function (line) {
-                if (vector.distance(line.start, body.center) < body.radius) {
-                  if (body.onCollision) body.onCollision(_body)
-                  if (_body.onCollision) _body.onCollision(body)
-                }
-                if (vector.distance(line.end, body.center) < body.radius) {
-                  if (body.onCollision) body.onCollision(_body)
-                  if (_body.onCollision) _body.onCollision(body)
-                }
+            } else if (body.type === 'Circle' && body2.type !== 'Circle') {
+              body2.vertices.points.forEach((vertex) => {
+                if (vector.distance(vertex, body.center) < body2.radius) this.collision(body, body2)
               })
             } else {
-              if (vector.distance(body.center, _body.center) < body.radius + _body.radius) {
-                if (body.onCollision) body.onCollision(_body)
-                if (_body.onCollision) _body.onCollision(body)
+              if (body.center.distance(body2.center) < body.radius + body2.radius) {
+                this.collision(body, body2)
               }
             }
           }

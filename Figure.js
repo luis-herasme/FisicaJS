@@ -4,25 +4,25 @@ const vector = require('vector_functions')
 function Figure () {
   this.points = []
 
-  this.add = function (point) {
+  this.add = (point) => {
     this.points.push(point)
   }
 
-  this.translate = function (vec) {
+  this.translate = (vec) => {
     this.points = this.points.map((x) => vector.add(x, vec))
   }
 
-  this.rotate = function (vec) {
+  this.rotate = (vec) => {
     this.points = this.points.map((x) => vector.rotate(x, vec))
   }
 
-  this.scale = function (vec) {
+  this.scale = (vec) => {
     this.points = this.points.map((x) => vector.mult(x, vec))
   }
 
-  this.calculateCenter = function () {
+  this.center = () => vector.average(this.points)
 
-  }
+  return this
 }
 
 module.exports = Figure

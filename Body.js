@@ -1,74 +1,58 @@
 
-const vector = require('vector_functions')
-const Line = require('./Line')
+const Vector = require('vector_class')
+const vec = require('vector_functions')
+const Figure = require('./Figure')
 
-/**
- * This is a class that returns a line
- * @param {array} start This is a vector
- * @param {array} end This is a vector
- */
 function Body (type, config) {
-  this.lines = []
+  this.vertices = new Figure()
+  this.mass = config.mass ? config.mass : 1
+  this.aceleration = config.aceleration ? new Vector(...config.aceleration) : new Vector(0, 0)
+  this.velocity = config.velocity ? new Vector(...config.velocity) : new Vector(0, 0)
 
-  this.aceleration = config.aceleration ? config.aceleration : [0, 0]
-  this.velocity = config.velocity ? config.velocity : [0, 0]
+  this.update = () => {
+    this.velocity.add(this.aceleration)
+    this.vertices.translate(this.velocity) // PROBLEM WITH CIRCLE
+    this.center = this.vertices.center()
+    this.aceleration.mult(0)
+  }
 
-  this.update = function () {
-    this.velocity = vector.add(this.velocity, this.aceleration)
-    this.lines.map((x) => x.move(this.velocity))
-    this.aceleration = [0, 0]
-  }.bind(this)
-
-  this.addForce = function (force) {
-    force.mult(1 / this.size)
+  this.addForce = (force) => {
+    force.mult(1 / this.mass)
     this.aceleration.add(force)
-  }.bind(this)
+  }
 
-  this.addLine = function (line) {
-    this.lines.push(line)
-  }.bind(this)
+  this.addVertex = (vertex) => this.vertices.push(vertex)
 
-  this.load = function () {
-    if (type) {
-      if (type === 'Circle') {
-        this.center = config.position
-        this.radius = config.radius
-      } else if (type === 'Mesh') {
-        this.center = vector.average(this.points)
-        this.far = this.lines.reduce((a, c) => {
-          if (vector.ditance(this.center, c) > vector.ditance(this.center, a)) return c
-          else return a
-        }, 0)
+  this.load = () => {
+    if (type === 'Circle') {
+      this.center = config.position
+      this.radius = config.radius
+    } else {
+      if (type === 'Mesh') {
+        config.vertices.forEach((vertex) => this.vertices.add(vertex))
       } else if (type === 'Box') {
-        this.center = vector.add(config.position, [config.side / 2, config.side / 2])
+        const pointY = vec.add(config.position, [0, config.side])
+        const pointX = vec.add(config.position, [config.side, 0])
+        const pointXY = vec.add(config.position, [config.side, config.side])
 
-        const pointY = vector.add(config.position, [0, config.side])
-        const pointX = vector.add(config.position, [config.side, 0])
-        const pointXY = vector.add(config.position, [config.side, config.side])
-
-        this.addLine(new Line(config.position, pointX))
-        this.addLine(new Line(config.position, pointY))
-        this.addLine(new Line(pointY, pointXY))
-        this.addLine(new Line(pointXY, pointX))
-
-        this.far = Math.sqrt(2 * Math.pow(config.side / 2, 2))
+        this.vertices.add(config.position)
+        this.vertices.add(pointX)
+        this.vertices.add(pointY)
+        this.vertices.add(pointXY)
       } else if (type === 'Rect') {
-        this.center = vector.add(config.position, [config.width / 2, config.heigth / 2])
+        const pointY = vec.add(config.position, [0, config.heigth])
+        const pointX = vec.add(config.position, [config.width, 0])
+        const pointXY = vec.add(config.position, [config.width, config.heigth])
 
-        const pointY = vector.add(config.position, [0, config.heigth])
-        const pointX = vector.add(config.position, [config.width, 0])
-        const pointXY = vector.add(config.position, [config.width, config.heigth])
-
-        this.addLine(new Line(config.position, pointX))
-        this.addLine(new Line(config.position, pointY))
-        this.addLine(new Line(pointY, pointXY))
-        this.addLine(new Line(pointXY, pointX))
-
-        this.far = Math.sqrt(Math.pow(config.heigth / 2, 2) + Math.pow(config.width / 2, 2))
+        this.vertices.add(config.position)
+        this.vertices.add(pointX)
+        this.vertices.add(pointY)
+        this.vertices.add(pointXY)
       }
-    } else throw Error('No type defined in the body')
-  }.bind(this)
-
+      this.far = this.vertices.far()
+      this.center = this.vertices.center()
+    }
+  }
   return this
 }
 
