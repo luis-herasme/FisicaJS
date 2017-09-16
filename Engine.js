@@ -66,6 +66,7 @@ function Engine () {
 
   this.update = () => {
     this.bodies.forEach((body, index) => {
+      body.update()
       if (this.bounds) {
         if (body.position.x <= this.bounds[0]) {
           body.position.x = this.bounds[0]
