@@ -51,7 +51,7 @@ function Engine () {
   }
 
   this.destroy = (body) => {
-    this.bodies.filter((b) => {
+    this.bodies = this.bodies.filter((b) => {
       return b.id !== body.id
     })
   }
