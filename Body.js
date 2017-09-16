@@ -22,7 +22,7 @@ function Body (type, config) {
   } else {
     this.update = () => {
       this.velocity.add(this.aceleration)
-      this.center = vec.add(this.center, this.velocity)
+      this.center = vec.add(this.center, this.velocity.value)
       this.aceleration.mult(0)
     }
   }
