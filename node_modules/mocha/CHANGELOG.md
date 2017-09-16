@@ -1,3 +1,19 @@
+# 3.5.3 / 2017-09-11
+
+## :bug: Fixes
+
+- [#3003]: Fix invalid entities in xUnit reporter first appearing in v3.5.1 ([@jkrems])
+
+[#3003]: https://github.com/mochajs/mocha/pull/3003
+
+# 3.5.2 / 2017-09-10
+
+## :bug: Fixes
+
+- [#3001]: Fix AMD-related failures first appearing in v3.5.1 ([@boneskull])
+
+[#3001]: https://github.com/mochajs/mocha/pull/3001
+
 # 3.5.1 / 2017-09-09
 
 ## :newspaper: News
@@ -18,12 +34,14 @@
  
 [#2997]: https://github.com/mochajs/mocha/pull/2997
 [#2957]: https://github.com/mochajs/mocha/pull/2957
+[#2918]: https://github.com/mochajs/mocha/pull/2918
 [#2986]: https://github.com/mochajs/mocha/pull/2986
-[#2992]: https://github.com/mochajs/mocha/pull/2922
+[#2922]: https://github.com/mochajs/mocha/pull/2922
 [#2981]: https://github.com/mochajs/mocha/pull/2981
 [@solodynamo]: https://github.com/solodynamo
 [@jkrems]: https://github.com/jkrems
 [@jsoref]: https://github.com/jsoref
+
 # 3.5.0 / 2017-07-31
 
 ## :newspaper: News

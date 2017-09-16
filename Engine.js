@@ -1,24 +1,63 @@
 
 const vector = require('vector_functions')
 
+function meshIntersect (mesh, mesh2) {
+  mesh.vertices.points.forEach((vertex, index) => {
+    mesh2.vertices.points.forEach((vertex2, index2) => {
+      let end
+
+      if (index !== mesh.vertices.points.length - 1) {
+        end = mesh.vertices.points[index + 1]
+      } else end = mesh.vertices.points[0]
+
+      let end2
+      if (index2 !== mesh2.vertices.points.length - 1) {
+        end2 = mesh2.vertices.points[index2 + 1]
+      } else end2 = mesh2.vertices.points[0]
+
+      const i = vector.linearIntersect(vertex, end, vertex2, end2)
+      if (i[0] !== 1 && i[1] !== 1) {
+        collision(mesh, mesh2)
+      }
+    })
+  })
+}
+
+function circleIntersect (circle, _circle) {
+  if (vector.distance(circle.center, _circle.center) < circle.far + _circle.far) {
+    collision(circle, _circle)
+  }
+}
+
+function meshCircleIntersect (mesh, circle) {
+  mesh.vertices.points.forEach((vertex) => {
+    if (vector.distance(vertex, circle.center) < circle.far) collision(mesh, circle)
+  })
+}
+
+function collision (body, _body) {
+  if (body.collision) body.collision(_body)
+  if (_body.collision) _body.collision(body)
+}
+
+let idCounter = 0
+
 function Engine () {
   this.bodies = []
 
   this.add = (body) => {
+    body.id = idCounter++
     this.bodies.push(body)
   }
 
-  this.collision = function (body, body2) {
-    if (body.onCollision) body.onCollision(body2)
-    if (body2.onCollision) body2.onCollision(body)
+  this.destroy = (body) => {
+    this.bodies.filter((b) => {
+      return b.id !== body.id
+    })
   }
 
-  this.setBounds = (minX, maxX, minY, maxY) => {
-    this.bounds = true
-    this.minX = minX
-    this.maxX = maxX
-    this.minY = minY
-    this.maxY = maxY
+  this.setBounds = (bounds) => {
+    this.bounds = bounds
   }
 
   this.removeBounds = () => {
@@ -26,28 +65,28 @@ function Engine () {
   }
 
   this.update = () => {
-    this.bodies.forEach(function (body, index) {
+    this.bodies.forEach((body, index) => {
       if (this.bounds) {
-        if (body.position.x <= this.minX) {
-          body.position.x = this.minX
+        if (body.position.x <= this.bounds[0]) {
+          body.position.x = this.bounds[0]
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
 
-        if (body.position.x >= this.maxX) {
-          body.position.x = this.maxX
+        if (body.position.x >= this.bounds[1]) {
+          body.position.x = this.bounds[1]
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
 
-        if (body.position.y <= this.minY) {
-          body.position.y = this.minY
+        if (body.position.y <= this.bounds[2]) {
+          body.position.y = this.bounds[2]
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
 
-        if (body.position.y >= this.maxY) {
-          body.position.y = this.maxY
+        if (body.position.y >= this.bounds[3]) {
+          body.position.y = this.bounds[3]
           body.velocity.mult(this.restitution)
           body.velocity.inverse()
         }
@@ -55,30 +94,11 @@ function Engine () {
 
       this.bodies.forEach((body2, index2) => {
         if (index !== index2) {
-          if (body.center.distance(body2.center) > body.far + body2.far) {
-            if (body.type !== 'Circle' && body2.type !== 'Circle') {
-              for (let bodyIndex = 0; bodyIndex < body.vertices.length - 1; bodyIndex++) {
-                for (let body2Index = 0; body2Index < body2.vertices.length - 1; body2Index++) {
-                  const intersection = vector.lineIntersect(
-                    body.vertices.points[bodyIndex], body.vertices.points[bodyIndex + 1],
-                    body2.vertices.points[body2Index], body2.vertices.points[body2Index + 1]
-                  )
-                  if (intersection[0] !== 1 || intersection[1] !== 1) this.collision(body, body2)
-                }
-              }
-            } else if (body.type !== 'Circle' && body2.type === 'Circle') {
-              body.vertices.points.forEach((vertex) => {
-                if (vector.distance(vertex, body2.center) < body2.radius) this.collision(body, body2)
-              })
-            } else if (body.type === 'Circle' && body2.type !== 'Circle') {
-              body2.vertices.points.forEach((vertex) => {
-                if (vector.distance(vertex, body.center) < body2.radius) this.collision(body, body2)
-              })
-            } else {
-              if (body.center.distance(body2.center) < body.radius + body2.radius) {
-                this.collision(body, body2)
-              }
-            }
+          if (vector.distance(body.center, body2.center) < body.far + body2.far) {
+            if (body.type !== 'Circle' && body2.type !== 'Circle') meshIntersect(body, body2)
+            else if (body.type !== 'Circle' && body2.type === 'Circle') meshCircleIntersect(body, body2)
+            else if (body.type === 'Circle' && body2.type !== 'Circle') meshCircleIntersect(body2, body)
+            else circleIntersect(body, body2)
           }
         }
       })
