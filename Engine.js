@@ -68,28 +68,28 @@ function Engine () {
     this.bodies.forEach((body, index) => {
       body.update()
       if (this.bounds) {
-        if (body.position.x <= this.bounds[0]) {
-          body.position.x = this.bounds[0]
-          body.velocity.mult(this.restitution)
-          body.velocity.inverse()
+        if (body.center[0] <= this.bounds[0]) {
+        // body.center.x = this.bounds[0]
+          body.velocity.mult(body.restitution)
+          body.velocity.value[0] *= -1
         }
 
-        if (body.position.x >= this.bounds[1]) {
-          body.position.x = this.bounds[1]
-          body.velocity.mult(this.restitution)
-          body.velocity.inverse()
+        if (body.center[0] >= this.bounds[1]) {
+        // body.center.x = this.bounds[1]
+          body.velocity.mult(body.restitution)
+          body.velocity.value[0] *= -1
         }
 
-        if (body.position.y <= this.bounds[2]) {
-          body.position.y = this.bounds[2]
-          body.velocity.mult(this.restitution)
-          body.velocity.inverse()
+        if (body.center[1] <= this.bounds[2]) {
+        // body.center.y = this.bounds[2]
+          body.velocity.mult(body.restitution)
+          body.velocity.value[1] *= -1
         }
 
-        if (body.position.y >= this.bounds[3]) {
-          body.position.y = this.bounds[3]
-          body.velocity.mult(this.restitution)
-          body.velocity.inverse()
+        if (body.center[1] >= this.bounds[3]) {
+        // body.center.y = this.bounds[3]
+          body.velocity.mult(body.restitution)
+          body.velocity.value[1] *= -1
         }
       }
 

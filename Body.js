@@ -5,16 +5,21 @@ const Figure = require('./Figure')
 
 function Body (type, config) {
   this.mass = config.mass ? config.mass : 1
+  this.friction = config.friction
+  this.restitution = config.restitution ? config.restitution : 0.9
   this.aceleration = config.aceleration ? new Vector(...config.aceleration) : new Vector(0, 0)
   this.velocity = config.velocity ? new Vector(...config.velocity) : new Vector(0, 0)
   this.collision = config.collision
-
+  this.name = config.name
   this.type = type
 
   if (type !== 'Circle') {
     this.update = () => {
       this.velocity.add(this.aceleration)
       this.vertices.translate(this.velocity)
+
+      this.velocity.mult(this.friction)
+
       this.center = this.vertices.center()
       this.aceleration.mult(0)
       this.far = this.vertices.far(this.center)
@@ -23,6 +28,9 @@ function Body (type, config) {
     this.update = () => {
       this.velocity.add(this.aceleration)
       this.center = vec.add(this.center, this.velocity.value)
+
+      this.velocity.mult(this.friction)
+
       this.aceleration.mult(0)
     }
   }
