@@ -36,8 +36,8 @@ function meshCircleIntersect (mesh, circle) {
 }
 
 function collision (body, _body) {
-  if (body.collision) body.collision(_body)
-  if (_body.collision) _body.collision(body)
+  if (body.collision) body.collision(body, _body)
+  if (_body.collision) _body.collision(_body, body)
 }
 
 let idCounter = 0

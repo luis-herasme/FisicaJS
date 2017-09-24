@@ -5,7 +5,7 @@ const Figure = require('./Figure')
 
 function Body (type, config) {
   this.mass = config.mass ? config.mass : 1
-  this.friction = config.friction
+  this.friction = config.friction ? config.friction: 1 
   this.restitution = config.restitution ? config.restitution : 0.9
   this.aceleration = config.aceleration ? new Vector(...config.aceleration) : new Vector(0, 0)
   this.velocity = config.velocity ? new Vector(...config.velocity) : new Vector(0, 0)
