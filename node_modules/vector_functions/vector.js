@@ -207,9 +207,8 @@ function angle (vector) {
  * @param {number} magnitud This is the magnitud of the vector that will be created
  */
 function angleMagnitude (direction, magnitud) {
-  let result = setMag([1, 1], magnitud)
-  result = setAngle(result, direction)
-  return result
+  if (magnitud < 0) return inverse(setAngle([0, magnitud], direction))
+  return setAngle([0, magnitud], direction)
 }
 
 /**
