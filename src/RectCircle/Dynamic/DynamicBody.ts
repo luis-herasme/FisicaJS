@@ -2,6 +2,13 @@
 import Vector from '../../Vector'
 
 class DinamicBody {
+  public restitution
+  public position
+  public velocity
+  public acceleration
+  public isDynamic
+  public mass
+
   constructor (position = new Vector(0, 0), restitution = 1) {
     this.restitution = restitution
     this.position = position
