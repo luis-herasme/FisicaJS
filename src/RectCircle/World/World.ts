@@ -2,6 +2,15 @@
 import Vector from '../../Vector'
 
 class World {
+  public dynamicParticles
+  public circleParticles
+  public rectParticles
+
+  public maxPositionX
+  public minPositionX
+  public maxPositionY
+  public minPositionY
+
   constructor () {
     this.dynamicParticles = []
     this.circleParticles = []
