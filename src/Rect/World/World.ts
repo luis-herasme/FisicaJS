@@ -1,6 +1,4 @@
 
-import Vector from 'vector_class'
-
 class World {
   public maxPositionX = window.innerWidth
   public minPositionX = 0
