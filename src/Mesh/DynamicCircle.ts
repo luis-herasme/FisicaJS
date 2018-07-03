@@ -1,5 +1,4 @@
 import Body from './Body'
-import { Vector2D } from 'vector_class'
 
 class Circle extends Body {
     

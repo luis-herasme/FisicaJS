@@ -1,7 +1,7 @@
 
-import {Vector2D} from 'vector_class'
+import { Vector2D } from 'vector_class'
 
-function meshIntersect (mesh, mesh2) {
+function meshIntersect(mesh, mesh2) {
   mesh.vertices.points.forEach((vertex, index) => {
     mesh2.vertices.points.forEach((vertex2, index2) => {
       let end
@@ -15,7 +15,7 @@ function meshIntersect (mesh, mesh2) {
         end2 = mesh2.vertices.points[index2 + 1]
       } else end2 = mesh2.vertices.points[0]
 
-      const i = vector.linearIntersect(vertex, end, vertex2, end2)
+      const i = Vector2D.linearIntersect(vertex, end, vertex2, end2)
       if (i[0] !== 1 && i[1] !== 1) {
         collision(mesh, mesh2)
       }
@@ -23,46 +23,46 @@ function meshIntersect (mesh, mesh2) {
   })
 }
 
-function circleIntersect (circle, _circle) {
-  if (vector.distance(circle.center, _circle.center) < circle.far + _circle.far) {
+function circleIntersect(circle, _circle) {
+  if (Vector2D.distance(circle.center, _circle.center) < circle.far + _circle.far) {
     collision(circle, _circle)
   }
 }
 
-function meshCircleIntersect (mesh, circle) {
+function meshCircleIntersect(mesh, circle) {
   mesh.vertices.points.forEach((vertex) => {
-    if (vector.distance(vertex, circle.center) < circle.far) collision(mesh, circle)
+    if (Vector2D.distance(vertex, circle.center) < circle.far) collision(mesh, circle)
   })
 }
 
-function collision (body, _body) {
+function collision(body, _body) {
   if (body.collision) body.collision(body, _body)
   if (_body.collision) _body.collision(_body, body)
 }
 
 class World {
   public bodies = []
+  public bounds
 
-  add (body)  {
-    body.id = idCounter++
+  add(body) {
     this.bodies.push(body)
   }
 
-  destroy (body) {
+  destroy(body) {
     this.bodies = this.bodies.filter((b) => {
       return b.id !== body.id
     })
   }
 
-  setBounds  (bounds)  {
+  setBounds(bounds) {
     this.bounds = bounds
   }
 
-  removeBounds ()  {
+  removeBounds() {
     this.bounds = false
   }
 
-  update () {
+  update() {
     this.bodies.forEach((body, index) => {
       body.update()
       if (this.bounds) {
@@ -89,7 +89,7 @@ class World {
 
       this.bodies.forEach((body2, index2) => {
         if (index !== index2) {
-          if (vector.distance(body.center, body2.center) < body.far + body2.far) {
+          if (Vector2D.distance(body.center, body2.center) < body.far + body2.far) {
             if (body.type !== 'Circle' && body2.type !== 'Circle') meshIntersect(body, body2)
             else if (body.type !== 'Circle' && body2.type === 'Circle') meshCircleIntersect(body, body2)
             else if (body.type === 'Circle' && body2.type !== 'Circle') meshCircleIntersect(body2, body)

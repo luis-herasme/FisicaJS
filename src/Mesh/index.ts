@@ -1,5 +1,7 @@
 
-const Body = require('./Body.js')
-const Engine = require('./Engine.js')
+import DynamicCircle from './DynamicCircle'
+import DynamicRect from './DynamicRect'
+import DynamicMesh from './DynamicMesh'
+import World from './World'
 
-module.exports = { Body, Engine }
+export default { World, DynamicMesh, DynamicCircle, DynamicRect }

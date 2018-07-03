@@ -1,6 +1,5 @@
 
 import Vector from 'vector_class'
-import Figure from './Figure'
 
 class Body {
   public mass
