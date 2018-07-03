@@ -1,12 +1,12 @@
 
-import World from './World/World'
-import Collider from './Body/Collider'
-import Trigger from './Body/Trigger'
-import Dynamic from './Body/Dynamic'
+import World from './World'
+import Collider from './Collider'
+import Trigger from './Trigger'
+import Dynamic from './Dynamic'
 
 export {
   Collider,
-  // CircleTrigger,
+  Trigger,
   Dynamic,
   World
 }

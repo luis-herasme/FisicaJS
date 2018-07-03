@@ -1,6 +1,4 @@
 
-import Vector from '../../Vector'
-
 class World {
   public dynamicParticles
   public circleParticles

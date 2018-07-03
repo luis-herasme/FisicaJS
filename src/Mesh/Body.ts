@@ -1,7 +1,6 @@
 
-const Vector = require('vector_class')
-const vec = require('vector_functions')
-const Figure = require('./Figure')
+import Vector from 'vector_class'
+import Figure from './Figure'
 
 function Body (type, config) {
   this.mass = config.mass ? config.mass : 1
@@ -25,7 +24,7 @@ function Body (type, config) {
   } else {
     this.update = () => {
       this.velocity.add(this.aceleration)
-      this.center = vec.add(this.center, this.velocity.value)
+      this.center = Vector.add(this.center, this.velocity.value)
       this.velocity.mult(this.friction)
       this.aceleration.mult(0)
     }
@@ -44,18 +43,18 @@ function Body (type, config) {
     if (type === 'Mesh') {
       config.vertices.forEach((vertex) => this.vertices.add(vertex))
     } else if (type === 'Box') {
-      const pointY = vec.add(config.position, [0, config.side])
-      const pointX = vec.add(config.position, [config.side, 0])
-      const pointXY = vec.add(config.position, [config.side, config.side])
+      const pointY = Vector.add(config.position, [0, config.side])
+      const pointX = Vector.add(config.position, [config.side, 0])
+      const pointXY = Vector.add(config.position, [config.side, config.side])
 
       this.vertices.add(config.position)
       this.vertices.add(pointX)
       this.vertices.add(pointXY)
       this.vertices.add(pointY)
     } else if (type === 'Rect') {
-      const pointY = vec.add(config.position, [0, config.height])
-      const pointX = vec.add(config.position, [config.width, 0])
-      const pointXY = vec.add(config.position, [config.width, config.height])
+      const pointY = Vector.add(config.position, [0, config.height])
+      const pointX = Vector.add(config.position, [config.width, 0])
+      const pointXY = Vector.add(config.position, [config.width, config.height])
 
       this.vertices.add(config.position)
       this.vertices.add(pointX)
@@ -69,4 +68,4 @@ function Body (type, config) {
   return this
 }
 
-module.exports = Body
+export default Body

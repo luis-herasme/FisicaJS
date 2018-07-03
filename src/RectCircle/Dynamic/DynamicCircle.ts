@@ -1,9 +1,12 @@
 
-import Vector from '../../Vector'
+import Vector from 'vector_class'
 import DynamicBody from './DynamicBody'
 
 class DynamicCircle extends DynamicBody {
-  constructor (position, radius, restitution) {
+  public radius
+  public type
+
+  constructor (position, radius, restitution = 0.5) {
     super(position, restitution)
     this.radius = radius
     this.mass = Math.PI * Math.pow(this.radius, 2)

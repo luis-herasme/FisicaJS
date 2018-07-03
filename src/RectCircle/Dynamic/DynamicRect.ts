@@ -6,7 +6,6 @@ class DynamicRect extends DynamicBody {
     super(position, restitution)
     this.size = size
     this.mass = size.x * size.y
-    this.type = 'rect'
   }
 
   circleCollision (circle) {

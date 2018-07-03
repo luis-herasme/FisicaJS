@@ -1,5 +1,5 @@
 
-const vector = require('vector_functions')
+import vector from 'vector_functions'
 
 function meshIntersect (mesh, mesh2) {
   mesh.vertices.points.forEach((vertex, index) => {
@@ -103,4 +103,4 @@ function Engine () {
   }
 }
 
-module.exports = Engine
+export default Engine

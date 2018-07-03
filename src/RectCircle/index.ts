@@ -1,5 +1,5 @@
 
-import Vector from '../Vector'
+import Vector from 'vector_class'
 
 import DynamicCircle from './Dynamic/DynamicCircle'
 import DynamicBox from './Dynamic/DynamicBox'

@@ -1,11 +1,11 @@
 
-import {Vector2D} from 'vector_class'
+import { Vector2D } from 'vector_class'
 
 class Rect {
-  public position:Vector2D = new Vector2D(0, 0)
+  public position: Vector2D = new Vector2D(0, 0)
   public size: Vector2D = new Vector2D(10, 10)
 
-  constructor (position, size) {
+  constructor(position, size) {
     this.position = position
     this.size = size
   }

@@ -1,9 +1,17 @@
 
 import Collision from './Collision'
-import { detectCollision } from './Utils'
 
 class CollisionHandeler {
-  constructor () {
+  private maxPositionX
+  private maxPositionY
+  private minPositionX
+  private minPositionY
+
+  private particles
+  private resolution
+  private helpers
+
+  constructor() {
     this.particles = []
     this.resolution = [3, 3]
     this.helpers = []
@@ -21,23 +29,23 @@ class CollisionHandeler {
     }
   }
 
-  add (particle) {
+  add(particle) {
     this.particles.push(particle)
     this.insideWorldBounds(particle)
   }
 
-  remove (particle) {
+  remove(particle) {
     this.particles.splice(this.particles.indexOf(particle), 1)
   }
 
-  organizeParticle (particle) {
+  organizeParticle(particle) {
     const positionX = Math.floor((particle.position.x / this.maxPositionX) * this.resolution[0])
     const positionY = Math.floor((particle.position.y / this.maxPositionY) * this.resolution[1])
     if (particle.collider) particle.collider.remove(particle)
     this.helpers[positionX][positionY].add(particle)
   }
 
-  organizeSharedParticles (particle) {
+  organizeSharedParticles(particle) {
     const BorderMaxX = Math.floor(((particle.position.x + particle.size) / this.maxPositionX) * this.resolution[0])
     const BorderMinX = Math.floor(((particle.position.x - particle.size) / this.maxPositionX) * this.resolution[0])
 
@@ -69,31 +77,31 @@ class CollisionHandeler {
     }
   }
 
-  insideWorldBounds (particle) {
-    if (particle.position.x/* + particle.size */> this.maxPositionX) {
+  insideWorldBounds(particle) {
+    if (particle.position.x/* + particle.size */ > this.maxPositionX) {
       particle.position.x = this.maxPositionX// - particle.size
       particle.velocity.x *= -1
-    } else if (particle.position.x/* - particle.size */< this.minPositionX) {
+    } else if (particle.position.x/* - particle.size */ < this.minPositionX) {
       particle.position.x = this.minPositionX// + particle.size
       particle.velocity.x *= -1
     }
 
-    if (particle.position.y/* + particle.size */> this.maxPositionY) {
+    if (particle.position.y/* + particle.size */ > this.maxPositionY) {
       particle.position.y = this.maxPositionY// - particle.size
       particle.velocity.y *= -1
-    } else if (particle.position.y/* - particle.size */< this.minPositionY) {
+    } else if (particle.position.y/* - particle.size */ < this.minPositionY) {
       particle.position.y = this.minPositionY// + particle.size
       particle.velocity.y *= -1
     }
   }
-/*
-  smartInsideWorldBounds (particle) {
-    if (particle.border) {
-      this.insideWorldBounds(particle)
+  /*
+    smartInsideWorldBounds (particle) {
+      if (particle.border) {
+        this.insideWorldBounds(particle)
+      }
     }
-  }
-*/
-  update () {
+  */
+  update() {
     this.particles.forEach((particle) => {
       this.insideWorldBounds(particle)
       this.organizeParticle(particle)
@@ -107,10 +115,6 @@ class CollisionHandeler {
         helper.check()
       })
     })
-  }
-
-  localChecker (particles) {
-    detectCollision(particles)
   }
 }
 

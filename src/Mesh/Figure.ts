@@ -1,36 +1,37 @@
 
-const vector = require('vector_functions')
+import vector from 'vector_functions'
+import { Vector2D } from 'vector_class'
 
-function Figure () {
-  this.points = []
-  this.rotation = 0
+class Figure {
+  public points: Array<Vector2D> = []
+  public rotation: number = 0
 
-  this.add = (point) => {
+  add(point) {
     this.points.push(point)
   }
 
-  this.translate = (vec) => {
+  translate(vec) {
     this.points = this.points.map((x) => vector.add(x, vec))
   }
 
-  this.rotate = (rotation) => {
+  rotate(rotation) {
     this.points = this.points.map((x) => vector.setAngle(x, this.rotation + rotation))
   }
 
-  this.scale = (vec) => {
+  scale(vec) {
     this.points = this.points.map((x) => vector.mult(x, vec))
   }
 
-  this.center = () => vector.average(this.points)
+  center() {
+    vector.average(this.points)
+  }
 
-  this.far = (center) => {
+  far(center) {
     return vector.mag(this.points.reduce((a, c) => {
       if (vector.distance(a, center) > vector.distance(c, center)) return a
       else return c
     }))
   }
-
-  return this
 }
 
-module.exports = Figure
+export default Figure

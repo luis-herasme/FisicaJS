@@ -1,5 +1,5 @@
 
-import Vector from '../../Vector'
+import Vector from 'vector_class'
 
 class DinamicBody {
   public restitution
@@ -8,6 +8,8 @@ class DinamicBody {
   public acceleration
   public isDynamic
   public mass
+  public size
+  public coliciona
 
   constructor (position = new Vector(0, 0), restitution = 1) {
     this.restitution = restitution
