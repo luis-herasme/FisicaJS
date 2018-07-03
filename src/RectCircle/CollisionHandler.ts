@@ -1,5 +1,5 @@
 
-import Collision from './Collision'
+import Collision from '../Collision'
 
 class CollisionHandeler {
   private maxPositionX

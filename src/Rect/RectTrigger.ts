@@ -1,5 +1,5 @@
 
-import Vector from 'vector_class'
+import { Vector2D } from 'vector_class'
 import RectCollider from './RectCollider'
 
 class RectTrigger extends RectCollider {
@@ -8,12 +8,13 @@ class RectTrigger extends RectCollider {
   public size: Vector2D = new Vector2D(10, 10)
 
   constructor(position, size) {
+    super(position, size)
     this.position = position
     this.size = size
   }
 
   update(other) {
-    const distance = Vector.sub(this.position, other.position)
+    const distance = Vector2D.sub(this.position, other.position)
     if (this.check(other)) { // Is inside
       if (!includes(this.particlesInside, other)) { // Is not in the list
         other.gamObject.onTriggerEnter()
