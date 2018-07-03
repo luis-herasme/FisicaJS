@@ -6,7 +6,6 @@ class Dynamic extends RectCollider {
 
   public velocity: Vector2D = new Vector2D(0, 0)
   public acceleration: Vector2D = new Vector2D(0, 0)
-
   public restitution: number = 1
   public mass: number
   public dynamic: boolean = true

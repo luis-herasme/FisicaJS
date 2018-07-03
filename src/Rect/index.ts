@@ -1,7 +1,6 @@
 
-import World from './World/World'
-
-import RectCollider from './Body/RectCollider'
+import World from './World'
+import RectCollider from './RectCollider'
 
 export {
   RectCollider,

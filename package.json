@@ -16,12 +16,9 @@
     "url": "https://github.com/LuisHerasme/FisicaJs/issues"
   },
   "dependencies": {
-    "vector_class": "^3.0.0",
-    "vector_functions": "^1.0.2"
+    "vector_class": "^3.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^3.5.3",
     "ts-loader": "^4.4.2"
   },
   "homepage": "https://github.com/LuisHerasme/FisicaJs#readme"
