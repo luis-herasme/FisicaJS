@@ -1,14 +1,14 @@
 
-import Vector from '../../../Vector'
+import { Vector2D } from 'vector_class'
 import Rect from './Rect'
 
 class RectCollider extends Rect {
-  check (other) {
+  check(other) {
     if (this.position.x < other.position.x + other.size.x &&
       this.position.x + this.size.x > other.position.x &&
       this.position.y < other.position.y + other.size.y &&
       this.size.y + this.position.y > other.position.y) {
-     return true
+      return true
     }
     return false
   }

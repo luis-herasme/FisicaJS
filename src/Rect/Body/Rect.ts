@@ -1,11 +1,9 @@
 
-import * as uuidv1 from 'uuid/v1'
-import Vector from '../../../Vector'
+import {Vector2D} from 'vector_class'
 
 class Rect {
-  public position:Vector = new Vector(0, 0)
-  public size: Vector = new Vector(10, 10)
-  public id: string = uuidv1()
+  public position:Vector2D = new Vector2D(0, 0)
+  public size: Vector2D = new Vector2D(10, 10)
 
   constructor (position, size) {
     this.position = position

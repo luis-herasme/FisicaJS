@@ -1,7 +1,5 @@
 
-declare var require: any
-const _ = require('lodash')
-import Vector from '../../../Vector'
+import Vector from 'vector_class'
 
 class World {
   public maxPositionX = window.innerWidth
@@ -10,26 +8,26 @@ class World {
   public minPositionY = 0
   private particles: Array<any>
 
-  constructor () {
+  constructor() {
     this.particles = []
   }
 
-  setBounds (maxX: number, minX: number, maxY: number, minY: number) {
+  setBounds(maxX: number, minX: number, maxY: number, minY: number) {
     this.maxPositionX = maxX
     this.minPositionX = minX
     this.maxPositionY = maxY
     this.minPositionY = minY
   }
 
-  add (particle) {
+  add(particle) {
     this.particles.push(particle)
   }
 
-  remove (toRemove) {
-    this.particles = _.filter(this.particles, particle => toRemove.id !== particle.id)
+  remove(toRemove) {
+    this.particles.slice(this.particles.indexOf(toRemove), 1)
   }
 
-  update () {
+  update() {
     this.particles.forEach((particle) => {
       if (particle.dynamic) {
         this.insideWorldBounds(particle)
@@ -42,7 +40,7 @@ class World {
     })
   }
 
-  insideWorldBounds (particle) {
+  insideWorldBounds(particle) {
     // Horizontal bounds
     if (particle.position.x + particle.radius > this.maxPositionX) {
       particle.position.x = this.maxPositionX - particle.radius
