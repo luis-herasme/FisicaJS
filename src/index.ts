@@ -25,14 +25,14 @@ const Mesh = {
 
 // --------------- Rect ---------------
 import RectCollider from './Rect/RectCollider'
-import RectDynamic from './Rect/Dynamic'
+import Rect_ from './Rect/Dynamic'
 import RectTrigger from './Rect/RectTrigger'
 import WorldRect from './World'
 
 const Rect = {
   RectCollider,
   RectTrigger,
-  RectDynamic,
+  Rect: Rect_,
   World: WorldRect
 }
 

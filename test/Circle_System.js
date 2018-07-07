@@ -21,6 +21,6 @@ describe('Given a Circle instance', () => {
 
   it('The velocity should change with an acceleration', () => {
     circle.update()
-    expect(circle.velocity).to.deep.equal(new Vector2D(1 / circle.mass, 0)) // 
+    expect(circle.velocity).to.deep.equal(new Vector2D(1 / circle.mass, 0))
   })
 })
