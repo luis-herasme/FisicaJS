@@ -15,9 +15,7 @@ describe('Given a RigidBody instance', () => {
   })
 
   it('Check if it has the correct mass', () => {
-    console.log('RADIUS', circle.raidus)
-    console.log('MASS', Math.PI * Math.pow(circle.raidus, 2))
-    expect(circle.mass).to.deep.equal(Math.PI * Math.pow(circle.raidus, 2))
+    expect(circle.mass).to.deep.equal(Math.PI * Math.pow(circle.radius, 2))
   })
 
   it('I should be able to add a force', () => {
@@ -37,29 +35,33 @@ describe('Given a RigidBody instance', () => {
 
 describe('Given a Collider instance', () => {
   const circle = new fisica.Circle.Collider(new Vector2D(0, 0), 10)
-
+  const circle2 = new fisica.Circle.Collider(new Vector2D(5, 2), 5)
+  
   it('Should be able to know if collides with other circle', () => {
-    circle.update()
-    expect(circle.velocity).to.deep.equal(new Vector2D(1 / circle.mass, 0))
+     expect(circle.collidesWith(circle2)).to.deep.equal(true)
   })
 })
 
 describe('Given a Trigger instance', () => {
-  const circle = new fisica.Circle.Trigger(new Vector2D(0, 0), 1, true)
+  const circle = new fisica.Circle.Trigger(new Vector2D(0, 0), 50)
+  const circle2 = new fisica.Circle.Collider(new Vector2D(10, 10), 5)
+  circle.update(circle2)
 
   it('I should be able to know if other circle is inside', () => {
-    circle.addForce(new Vector2D(1, 0))
-    expect(circle.acceleration).to.deep.equal(new Vector2D(1, 0))
+    expect(circle.isInside(circle2)).to.deep.equal(true)
   })
 
   it('I should be able to know if other circle gets outside', () => {
-    expect(circle.momentum()).deep.equal(Vector2D.mult(circle.velocity, circle.mass))
+    circle.update(circle2)
+    expect(circle.isInList(circle2)).deep.equal(true)
+    circle2.position = new Vector2D(1000, 1000)
+    circle.update(circle2)
+    expect(circle.isInList(circle2)).deep.equal(false)
   })
 
   it('Should be able to know if a circle stays inside', () => {
-    circle.update()
-    expect(circle.velocity).to.deep.equal(new Vector2D(1 / circle.mass, 0))
+    circle2.position = new Vector2D(-10, -10)
+    circle.update(circle2)
+    expect(circle.isInList(circle2)).to.deep.equal(true)
   })
 })
-
-

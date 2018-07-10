@@ -11,7 +11,7 @@ class RigidBody extends _RigidBody {
   public onTriggerStay: Function
   public onTriggerExit: Function
 
-  constructor(position = new Vector2D(0, 0), size = 5, restitution = 1) {
+  constructor(position = new Vector2D(0, 0), size = new Vector2D(10, 10), restitution = 1) {
     super(position, restitution)
     this.size = size
     this.mass = this.size.x * this.size.y

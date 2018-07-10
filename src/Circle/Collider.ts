@@ -19,8 +19,7 @@ class Collider {
     }
 
     collidesWith(other: Collider | RigidBody): boolean {
-        const distance = Vector2D.distance(this.position, other.position)
-        return distance.mag() < this.radius + other.radius
+        return (Vector2D.distance(this.position, other.position) < this.radius + other.radius)
     }
 
     translate(movement: Vector2D) {
