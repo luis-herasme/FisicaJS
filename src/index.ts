@@ -1,14 +1,32 @@
-// --------------- Circle ---------------
-import WorldCircle from './World'
-import CircleObj from './Circle/Circle'
-import Trigger from './Circle/Trigger'
+
+import World from './World'
 import { Vector2D } from 'vector_class'
 
+// --------------- Circle ---------------
+import _RigidBody from './Circle/RigidBody'
+import _Collider from './Circle/Collider'
+import _Trigger from './Circle/Trigger'
+
 const Circle = {
-  Circle: CircleObj,
-  Trigger,
-  World: WorldCircle
+  RigidBody: _RigidBody,
+  Collider: _Collider,
+  Trigger: _Trigger,
+  World
 }
+
+// --------------- Rect ---------------
+import Collider from './Rect/Collider'
+import RigidBody from './Rect/RigidBody'
+import Trigger from './Rect/Trigger'
+
+const Rect = {
+  Collider,
+  Trigger,
+  RigidBody,
+  World
+}
+
+/*
 
 // --------------- Mesh ---------------
 import DynamicCircle from './Mesh/DynamicCircle'
@@ -21,19 +39,6 @@ const Mesh = {
   DynamicMesh,
   DynamicCircle,
   DynamicRect
-}
-
-// --------------- Rect ---------------
-import RectCollider from './Rect/RectCollider'
-import Rect_ from './Rect/Dynamic'
-import RectTrigger from './Rect/RectTrigger'
-import WorldRect from './World'
-
-const Rect = {
-  RectCollider,
-  RectTrigger,
-  Rect: Rect_,
-  World: WorldRect
 }
 
 // --------------- Rect Circle ---------------
@@ -51,12 +56,16 @@ const RectCircle = {
   World: WorldRC
 }
 
+*/
+
 // EXPORT
 
 export {
   Circle,
   Rect,
+  Vector2D
+  /*
   Mesh,
   RectCircle,
-  Vector2D
+  */
 }
